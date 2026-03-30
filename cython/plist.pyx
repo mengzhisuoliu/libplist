@@ -789,7 +789,10 @@ cdef class Array(Node):
         return self._array.__iter__()
 
     def __getitem__(self, index):
-        return self._array[index]
+        value = self._array[index]
+        if isinstance(value, list):
+            return [item.copy() for item in value]
+        return value.copy()
 
     def __setitem__(self, index, value):
         cdef Node n
